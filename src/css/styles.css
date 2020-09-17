@@ -15,13 +15,6 @@ header {
   color: white;
 }
 
-.content {
-  float: left;
-  padding: 20px;
-  width: 85%;
-  height: 100%;
-}
-
 /* Clear floats after the columns */
 section:after {
   content: "";
@@ -30,57 +23,54 @@ section:after {
 }
 
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-.sidebar {
+
+.nav {
+  list-style-type: none;
   font-size: 1.25em;
   margin: 0;
   padding: 0;
   width: 15%;
-  background-color: #f1f1f1;
+  background-color: rgb(160, 154, 154);
   position: fixed;
   height: 100%;
   overflow: auto;
 }
 
-.sidebar a {
+.nav a {
   display: block;
   color: black;
   padding: 16px;
   text-decoration: none;
 }
- 
-.sidebar a.active {
-  background-color: #4CAF50;
-  color: white;
-}
 
-.sidebar a:hover:not(.active) {
+.nav a:hover:not(.active) {
   background-color: #555;
   color: white;
-}
-
-.content {
-  margin-left: 15%;
-  padding: 1px 16px;
+  width: 100%;
 }
 
 @media screen and (max-width: 700px) {
-  .sidebar{
+  .nav{
     width: 100%;
     height: auto;
     position: relative;
   }
-  .sidebar a {float: left;}
-  .content {
-  margin-left: 0;
+  .nav a {float: left;}
+  .tab-content  {
+    margin-left: 0;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .sidebar a {
+  .nav a {
     text-align: center;
     float: none;
   }
-  .content {
-  margin-left: 0;
+  .tab-content  {
+    margin-left: 0;
   }
+}
+
+#users {
+  width: 125%;
 }
