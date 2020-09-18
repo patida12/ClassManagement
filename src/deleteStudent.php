@@ -1,8 +1,9 @@
 <html>
 <?php include './head.php'; ?>
+
 <body>
-<div class="container">
-    <?php require_once './dbConnection.php'; 
+    <div class="container">
+        <?php require_once './dbConnection.php'; 
         $conn = DbConnection::getConnection();
         if (isset($_GET['id']) && is_numeric($_GET['id']))
         {
@@ -12,21 +13,21 @@
         $result = mysqli_query($conn,$query);
             if ($result)
             {
-                //header('Location: ' . $_SERVER['HTTP_REFERER']);
                 echo '<script>alert("Delete success!")</script>';
+                header('Location: index.php');
             }
             else 
             {
-                echo "<div class='alert alert-danger' role='alert'>";
-                echo "<h4 class='alert-heading'>Delete fail!</h4>";;
-                echo "</div>";
+                echo '<script>alert("Delete failt!")</script>';
+                header('Location: index.php');
             }
         
             
         }
         DbConnection::closeConnection($conn);
     ?>
-    
-</div>
+
+    </div>
 </body>
+
 </html>

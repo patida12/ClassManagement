@@ -1,10 +1,6 @@
-<div class="col-sm-12">
-    <form action="addStudent.php">
-        <button type="submit" class="btn btn-default">Update</button>
-    </form>
-</div>
-<div class="col-sm-12">
-    <form action="editStudent.php">
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
-</div>
+<a style="color: white;" href="editStudent.php?id=' . $user->getId() . '">
+    <button class="btn btn-warning btn-sm">Edit</button>
+</a>
+<a style="color: white;" href="deleteStudent.php?id=' . $user->getId() . '">
+    <button onclick="return  confirm('Do you want to delete Y/N')" class="btn btn-danger btn-sm">Delete</button>
+</a>

@@ -49,6 +49,10 @@ section:after {
   width: 100%;
 }
 
+.tab-content  {
+  margin-left: 0;
+}
+
 @media screen and (max-width: 700px) {
   .nav{
     width: 100%;
@@ -56,8 +60,9 @@ section:after {
     position: relative;
   }
   .nav a {float: left;}
-  .tab-content  {
-    margin-left: 0;
+  #users {
+    width: 90%;
+    left: 0;
   }
 }
 
@@ -66,8 +71,8 @@ section:after {
     text-align: center;
     float: none;
   }
-  .tab-content  {
-    margin-left: 0;
+  #users {
+    width: 80%;
   }
 }
 

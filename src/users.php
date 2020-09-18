@@ -48,11 +48,11 @@ class User
     {
         $user = new User();
         $conn = DbConnection::getConnection();
-        $sql = 'SELECT * FROM users WHERE id=$id';
+        $sql = "SELECT * FROM users WHERE id=$id";
         $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_object($result)) {
-                $user = new User($row->id, $row->username, $row->password, $row->fullname, $row->email, $row->phonenumber);
+        if (mysqli_num_rows($result) == 1) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $user = new User($row['id'], $row['username'], $row['password'], $row['fullname'], $row['email'], $row['phonenumber']);
             }
         }
         DbConnection::closeConnection($conn);

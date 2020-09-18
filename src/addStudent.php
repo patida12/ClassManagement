@@ -1,8 +1,9 @@
 <html>
 <?php include './head.php'; ?>
+
 <body>
-<div class="container">
-    <?php require_once './dbConnection.php'; 
+    <div class="container">
+        <?php require_once './dbConnection.php'; 
         if(isset($_POST['btnSubmit']))
         {
             $conn = DbConnection::getConnection();
@@ -19,7 +20,7 @@
             if ($result)
             {
                 echo '<script>alert("Add student success!")</script>';
-                //header('Location: index.php#');
+                header('Location: index.php');
             }
             else 
             {
@@ -31,36 +32,32 @@
         }
         
     ?>
-    <form action="#" method="post" class="was-validated">
-        <div class="form-group">
-          <label for="username">Username: </label>
-          <input type="text" name="username" class="form-control" placeholder="Enter username..." required>
-          <div class="valid-feedback">Valid.</div>
-          <div class="invalid-feedback">Please fill out this field.</div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password: </label>
-          <input type="password" class="form-control" name="password" placeholder="Enter password: " required>
-          <div class="valid-feedback">Valid.</div>
-          <div class="invalid-feedback">Please fill out this field.</div>
-        </div>
-          <div class="form-group">
-            <label for="fullname">Full Name: </label>
-            <input type="text" name="fullname" class="form-control" placeholder="Enter your full name..." required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>  
-        </div>
-          <div class="form-group">
-            <label for="email">Email: </label>
-            <input type="email" class="form-control" name="email" aria-describedby="emailHelpId" placeholder="Enter email...">
-            <small id="emailHelpId" class="form-text text-muted">Help text</small>
-          </div>
-          <div class="form-group">
-            <label for="phonenumber">Phone number: </label>
-            <input type="text" name="phonenumber" class="form-control" placeholder="Enter phone number...">
-          </div>
-          <button type="submit" class="btn btn-primary" name="btnSubmit"s>Add</button>
-    </form>
-</div>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="username">Username: </label>
+                <input type="text" name="username" class="form-control" placeholder="Enter username..." required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password: </label>
+                <input type="password" class="form-control" name="password" placeholder="Enter password: " required>
+            </div>
+            <div class="form-group">
+                <label for="fullname">Full Name: </label>
+                <input type="text" name="fullname" class="form-control" placeholder="Enter your full name..." required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email: </label>
+                <input type="email" class="form-control" name="email" aria-describedby="emailHelpId"
+                    placeholder="Enter email...">
+                <small id="emailHelpId" class="form-text text-muted">Help text</small>
+            </div>
+            <div class="form-group">
+                <label for="phonenumber">Phone number: </label>
+                <input type="text" name="phonenumber" class="form-control" placeholder="Enter phone number...">
+            </div>
+            <button type="submit" class="btn btn-primary" name="btnSubmit" s>Add</button>
+        </form>
+    </div>
 </body>
+
 </html>
