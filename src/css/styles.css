@@ -1,0 +1,76 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+/* Style the header */
+header {
+  background-color: green;
+  padding: 10px;
+  text-align: left; 
+  color: white;
+}
+
+/* Clear floats after the columns */
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+
+.nav {
+  list-style-type: none;
+  font-size: 1.25em;
+  margin: 0;
+  padding: 0;
+  width: 15%;
+  background-color: rgb(160, 154, 154);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.nav a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.nav a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+  width: 100%;
+}
+
+@media screen and (max-width: 700px) {
+  .nav{
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .nav a {float: left;}
+  .tab-content  {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .nav a {
+    text-align: center;
+    float: none;
+  }
+  .tab-content  {
+    margin-left: 0;
+  }
+}
+
+#users {
+  width: 125%;
+}
