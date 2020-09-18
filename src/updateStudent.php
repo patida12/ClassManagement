@@ -14,12 +14,13 @@
             $query = "INSERT INTO users
             VALUES 
             (null, '$username','$password','$fullname','$email','$phonenumber');";
-            
+
             $result = mysqli_query($conn,$query);
             if ($result)
             {
-                echo '<script>alert("Add student success!")</script>';
-                //header('Location: index.php#');
+                echo "<div class='alert alert-success' role='alert'>";
+                echo "<h4 class='alert-heading'>Add success!</h4>";
+                echo "</div>";
             }
             else 
             {
@@ -27,29 +28,22 @@
                 echo "<h4 class='alert-heading'>Add fail!</h4>";;
                 echo "</div>";
             }
-            DbConnection::closeConnection($conn);
+                DbConnection::closeConnection($conn);
         }
-        
     ?>
-    <form action="#" method="post" class="was-validated">
+    <form action="#" method="post">
         <div class="form-group">
           <label for="username">Username: </label>
           <input type="text" name="username" class="form-control" placeholder="Enter username..." required>
-          <div class="valid-feedback">Valid.</div>
-          <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="form-group">
           <label for="password">Password: </label>
           <input type="password" class="form-control" name="password" placeholder="Enter password: " required>
-          <div class="valid-feedback">Valid.</div>
-          <div class="invalid-feedback">Please fill out this field.</div>
         </div>
           <div class="form-group">
             <label for="fullname">Full Name: </label>
             <input type="text" name="fullname" class="form-control" placeholder="Enter your full name..." required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>  
-        </div>
+          </div>
           <div class="form-group">
             <label for="email">Email: </label>
             <input type="email" class="form-control" name="email" aria-describedby="emailHelpId" placeholder="Enter email...">
