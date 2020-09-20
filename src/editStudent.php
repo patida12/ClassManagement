@@ -2,85 +2,181 @@
 <?php include './head.php'; ?>
 
 <body>
-    <h4 style="text-align: center;">Edit student's information</h4>
-    <div class="container">
-        <?php require_once './dbConnection.php'; 
-          require_once './users.php';
-        $conn = DbConnection::getConnection();
-        if (isset($_GET['id']) && is_numeric($_GET['id']))
-        {
-          $id = $_GET['id'];
-          $sql = "SELECT * FROM users WHERE id=$id";
-          $result = mysqli_query($conn, $sql);
-          if (mysqli_num_rows($result) == 1) {
-            while($row = mysqli_fetch_assoc($result)) {
-                $user = new User($row['id'], $row['username'], $row['password'], $row['fullname'], $row['email'], $row['phonenumber']);
-            }
-          }
-          if(isset($_POST['btnSubmit']))
-          {
-              $conn = DbConnection::getConnection();
-              $id = $_POST['id'];
-              $username = htmlspecialchars(trim($_POST['username']));
-              $password = $_POST['password'];
-              $fullname = $_POST['fullname'];
-              $email = $_POST['email'];
-              $phonenumber = $_POST['phonenumber'];
-              $query = "UPDATE users SET username='$username', password='$password', fullname='$fullname', email='$email', phonenumber='$phonenumber' WHERE id='$id';";
-              
-              $result = mysqli_query($conn,$query);
-              if ($result)
-              {
-                  echo '<script>alert("Edit success!")</script>';
-                  header('Location: index.php');
-              }
-              else 
-              {
-                echo '<script>alert("Edit fail!")</script>';
-                header('Location: index.php');
-              }
-              DbConnection::closeConnection($conn);
-          }
-        }
-        DbConnection::closeConnection($conn);
-    ?>
+    <header style="opacity: 0.3;">
+        <h3><i class="fa fa-graduation-cap">ClassManagement</i></h3>
+    </header>
 
-        <form action="#" method="post">
-            <div class="form-group">
-                <input type="hidden" name="id" value="<?php echo $id; ?>" />
-            </div>
-            <div class="form-group">
-                <label for="username">Username: </label>
-                <input type="text" name="username" class="form-control" value="<?php echo $user->getUserName(); ?>"
-                    placeholder="Enter username..." required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password: </label>
-                <input type="password" class="form-control" name="password" value="<?php echo $user->getPassword(); ?>"
-                    placeholder="Enter password: " required>
-            </div>
-            <div class="form-group">
-                <label for="fullname">Full Name: </label>
-                <input type="text" name="fullname" class="form-control" value="<?php echo $user->getFullName(); ?>"
-                    placeholder="Enter your full name..." required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email: </label>
-                <input type="email" class="form-control" name="email" value="<?php echo $user->getEmail(); ?>"
-                    aria-describedby="emailHelpId" placeholder="Enter email...">
-                <small id="emailHelpId" class="form-text text-muted">Help text</small>
-            </div>
-            <div class="form-group">
-                <label for="phonenumber">Phone number: </label>
-                <input type="text" name="phonenumber" class="form-control"
-                    value="<?php echo $user->getPhoneNumber(); ?>" placeholder="Enter phone number...">
-            </div>
-            <button type="submit" class="btn btn-primary" name="btnSubmit">Save</button>
-            <button class="btn btn-warning" type="submit" style="color: white;"> <a href="#" onclick="history.back();">Back</a></button>
+    <section style="opacity: 0.3; margin-top: 1.4%;">
 
-        </form>
+        <ul id="ul_index" class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link"><i class="fa fa-home"> Home</i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"><i class="fa fa-book"> Assignment</i></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link"><i class="fa fa-user"> Teachers</i></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link"><i class="fa fa-users"> Students</i></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link"><i class="fa fa-gamepad"> Quizs</i></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link"><i class="fa fa-user-circle"> Profile</i></a>
+            </li>
+        </ul>
 
+    </section>
+    <br>
+    <div class="modal-dialog"> 
+        <div class="modal-content">
+            <div class="modal-header"  style="background-color: blue; color: white;">
+            <h4 class="modal-title">Enter student's information!</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <?php require_once './dbConnection.php'; 
+                        require_once './users.php';
+                        $link = DbConnection::getConnection();
+
+                        $username = $fullname = $password = $confirm_password = $email = $phonenumber = "";
+                        $username_err = $fullname_err = $password_err = $confirm_password_err = "";
+                        if (isset($_GET['id']) && is_numeric($_GET['id']))
+                        {
+                            $id = $_GET['id'];
+                            $user = User::getById($id);
+                            if(isset($_POST['btnSubmit']))
+                            {
+                                $link = DbConnection::getConnection();
+                                $id = $_POST['id'];
+                                $email = $_POST['email'];
+                                $phonenumber = $_POST['phonenumber'];
+
+                                // Validate username
+                                if(empty(trim($_POST["username"]))){
+                                    $username_err = "Please enter a username.";
+                                } 
+                                else{
+                                    $sql = "SELECT id FROM users WHERE username = ?";
+                                    
+                                    if($stmt = mysqli_prepare($link, $sql)){
+
+                                        mysqli_stmt_bind_param($stmt, "s", $param_username);
+                                        
+                                        $param_username = trim($_POST["username"]);
+                                        
+                                        if(mysqli_stmt_execute($stmt)){
+                                            mysqli_stmt_store_result($stmt);
+                                            
+                                            if($user->getUserName() != $param_username && mysqli_stmt_num_rows($stmt) == 1){
+                                                $username_err = "This username is already taken.";
+                                            } else{
+                                                $username = trim($_POST["username"]);
+                                            }
+                                        } else{
+                                            echo "Oops! Something went wrong. Please try again later.";
+                                        }
+
+                                        mysqli_stmt_close($stmt);
+                                    }
+                                }
+
+                                // Validate password
+                                if(empty(trim($_POST["password"]))){
+                                    $password_err = "Please enter a password.";     
+                                } elseif(strlen(trim($_POST["password"])) < 6){
+                                    $password_err = "Password must have atleast 6 characters.";
+                                } else{
+                                    $password = trim($_POST["password"]);
+                                }
+
+                                // Validate confirm password
+                                if(empty(trim($_POST["confirm_password"]))){
+                                    $confirm_password_err = "Please confirm password.";     
+                                } else{
+                                    $confirm_password = trim($_POST["confirm_password"]);
+                                    if(empty($password_err) && ($password != $confirm_password)){
+                                        $confirm_password_err = "Password did not match.";
+                                    }
+                                }
+
+                                // Validate fullname
+                                if(empty(trim($_POST["fullname"]))){
+                                    $fullname_err = "Please enter a full name.";
+                                } else{
+                                    $fullname = $_POST["fullname"];
+                                }
+
+                                // Check input errors
+                                if(empty($username_err) && empty($fullname_err) && empty($password_err) && empty($confirm_password_err)){
+                                    $param_password = password_hash($password, PASSWORD_DEFAULT); 
+                                    $query = "UPDATE users SET username='$param_username', password='$param_password', fullname='$fullname', email='$email', phonenumber='$phonenumber' WHERE id='$id';";
+                                    
+                                    $result = mysqli_query($link,$query);
+                                    if ($result)
+                                    {
+                                        echo '<script>alert("Edit success!")</script>';
+                                        header('Location: index.php');
+                                    }
+                                    else 
+                                    {
+                                        echo '<script>alert("Edit fail!")</script>';
+                                        header('Location: index.php');
+                                    }
+                                    DbConnection::closeConnection($link);
+                                }
+                            }
+                        }
+                        DbConnection::closeConnection($link);
+                    ?>
+
+                    <form action="#" method="post">
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                        </div>
+                        <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                            <label>User Name</label>
+                            <input type="text" name="username" class="form-control" value="<?php echo $user->getUserName(); ?>" required>
+                            <span style="color: red;" class="help-block"><?php echo $username_err; ?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" required
+                                value="<?php echo $user->getPassword(); ?>">
+                            <span style="color: red;" class="help-block"><?php echo $password_err; ?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                            <label>Confirm Password</label>
+                            <input type="password" name="confirm_password" class="form-control" required
+                                value="<?php echo $user->getPassword(); ?>">
+                            <span style="color: red;" class="help-block"><?php echo $confirm_password_err; ?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($fullname_err)) ? 'has-error' : ''; ?>">
+                            <label>Full Name</label>
+                            <input type="text" name="fullname" class="form-control" value="<?php echo $user->getFullName(); ?>" required >
+                            <span style="color: red;" class="help-block"><?php echo $fullname_err; ?></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email: </label>
+                            <input type="email" class="form-control" name="email"
+                                value="<?php echo $user->getEmail(); ?>" aria-describedby="emailHelpId"
+                                placeholder="Enter email...">
+                            <small id="emailHelpId" class="form-text text-muted">Help text</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="phonenumber">Phone number: </label>
+                            <input type="text" name="phonenumber" class="form-control" 
+                                value="<?php echo $user->getPhoneNumber(); ?>" placeholder="Enter phone number...">
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="btnSubmit">Save</button>
+                        <a style="float: right;" href="./index.php">Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
-
 </html>

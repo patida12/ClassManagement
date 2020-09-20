@@ -1,5 +1,6 @@
 <?php 
  require_once './dbConnection.php';
+ require_once './session.php';
  
 class User 
 {
@@ -9,8 +10,9 @@ class User
     private $fullname;
     private $email;
     private $phonenumber;
+    private $permission;
 
-    function __construct($_id, $_username, $_password, $_fullname, $_email, $_phonenumber)
+    function __construct($_id, $_username, $_password, $_fullname, $_email, $_phonenumber, $_permission)
     {
         $this->id = $_id;
         $this->username = $_username;
@@ -18,6 +20,7 @@ class User
         $this->fullname = $_fullname;
         $this->email = $_email;
         $this->phonenumber = $_phonenumber;
+        $this->permission = $_permission;
     }
 
     function getId() { return $this->id;}
@@ -26,17 +29,18 @@ class User
     function getFullName() { return $this->fullname;}
     function getEmail() { return $this->email;}
     function getPhoneNumber() { return $this->phonenumber;}
+    function getPermission() { return $this->permission;}
 
-    static function getAll()
+    static function getStudents()
     {
         $rows = array();
 
         $conn = DbConnection::getConnection();
-        $sql = 'SELECT * FROM users';
+        $sql = 'SELECT * FROM users WHERE permission = 0';
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_object($result)) {
-                $user = new User($row->id, $row->username, $row->password, $row->fullname, $row->email, $row->phonenumber);
+                $user = new User($row->id, $row->username, $row->password, $row->fullname, $row->email, $row->phonenumber, $row->permission);
                 $rows[] = $user;
             }
         }
@@ -46,17 +50,18 @@ class User
 
     static function getById($id) 
     {
-        $user = new User();
+        $user = new User(0,'','','','','',0);
         $conn = DbConnection::getConnection();
         $sql = "SELECT * FROM users WHERE id=$id";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) == 1) {
             while($row = mysqli_fetch_assoc($result)) {
-                $user = new User($row['id'], $row['username'], $row['password'], $row['fullname'], $row['email'], $row['phonenumber']);
+                $user = new User($row['id'], $row['username'], $row['password'], $row['fullname'], $row['email'], $row['phonenumber'], $row['phonenumber'], $row['permission']);
             }
         }
         DbConnection::closeConnection($conn);
         return $user;
     }
+
 }
 ?>

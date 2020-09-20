@@ -3,39 +3,12 @@
 
 <html>
 <?php include './head.php'; ?>
-<body>
-    <header style="opacity: 0.3;">
-        <h3><i class="fa fa-graduation-cap">ClassManagement</i></h3>
-    </header>
 
-    <section style="opacity: 0.3; margin-top: 1.4%;">
-
-        <ul id="ul_index" class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link"><i class="fa fa-home"> Home</i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link"><i class="fa fa-book"> Assignment</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-user"> Teachers</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-users"> Students</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-gamepad"> Quizs</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-user-circle"> Profile</i></a>
-            </li>
-        </ul>
-
-    </section>
+<body style="background-color: lightgreen; background-image: linear-gradient(lightgreen, lightyellow);">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: blue; color: white;">
-                <h4 class="modal-title">Add new student!</h4>
+                <h4 class="modal-title">Sign up!</h4>
             </div>
             <div class="modal-body">
                 <div class="container">
@@ -74,8 +47,8 @@
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary" value="Submit">
                             <input type="reset" class="btn btn-default" value="Reset">
-                            <a style="float: right;" href="./index.php">Back</a>
                         </div>
+                        <p>Already have an account? <a href="login.php">Login here</a>.</p>
                     </form>
                 </div>
             </div>

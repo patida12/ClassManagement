@@ -1,3 +1,12 @@
+<?php
+session_start();
+ 
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+?>
+ 
 <!doctype html>
 <html lang="en">
 <?php include './head.php'; ?>
@@ -9,7 +18,7 @@
 
     <section>
 
-        <ul class="nav nav-tabs flex-column" role="tablist">
+        <ul id="ul_index" class="nav nav-tabs flex-column" role="tablist">
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#home"><i class="fa fa-home"> Home</i></a>
             </li>
@@ -31,11 +40,7 @@
         </ul>
         <div class="tab-content">
             <div id="home" class="container tab-pane active"><br>
-                <h3>HOME</h3>
-                <p>Lorem
-                    idfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffpsum
-                    dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua.</p>
+                <?php include './home.php'; ?>
             </div>
             <div id="assignment" class="container tab-pane fade"><br>
                 <h3>Menu 1</h3>
@@ -43,12 +48,10 @@
                     consequat.</p>
             </div>
             <div id="teachers" class="container tab-pane fade"><br>
-                <h3>Menu 2</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                    totam rem aperiam.</p>
+                <?php include './getAllTeachers.php'; ?>
             </div>
             <div id="students" class="container tab-pane fade"><br>
-                <?php include './getAllUsers.php'; ?>
+                <?php include './getAllStudents.php'; ?>
             </div>
             <div id="quizs" class="container tab-pane fade"><br>
                 <h3>Menu 2</h3>
@@ -56,9 +59,7 @@
                     totam rem aperiam.</p>
             </div>
             <div id="profile" class="container tab-pane fade"><br>
-                <h3>Menu 2</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                    totam rem aperiam.</p>
+                <?php include './profile.php'; ?>
             </div>
         </div>
 
