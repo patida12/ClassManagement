@@ -48,6 +48,23 @@ class User
         return $rows;
     }
 
+    static function getTeachers()
+    {
+        $rows = array();
+
+        $conn = DbConnection::getConnection();
+        $sql = 'SELECT * FROM users WHERE permission = 1';
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_object($result)) {
+                $user = new User($row->id, $row->username, $row->password, $row->fullname, $row->email, $row->phonenumber, $row->permission);
+                $rows[] = $user;
+            }
+        }
+        DbConnection::closeConnection($conn);
+        return $rows;
+    }
+
     static function getById($id) 
     {
         $user = new User(0,'','','','','',0);

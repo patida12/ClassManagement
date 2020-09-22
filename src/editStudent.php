@@ -1,36 +1,7 @@
 <html>
 <?php include './head.php'; ?>
 
-<body>
-    <header style="opacity: 0.3;">
-        <h3><i class="fa fa-graduation-cap">ClassManagement</i></h3>
-    </header>
-
-    <section style="opacity: 0.3; margin-top: 1.4%;">
-
-        <ul id="ul_index" class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link"><i class="fa fa-home"> Home</i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link"><i class="fa fa-book"> Assignment</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-user"> Teachers</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-users"> Students</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-gamepad"> Quizs</i></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link"><i class="fa fa-user-circle"> Profile</i></a>
-            </li>
-        </ul>
-
-    </section>
-    <br>
+<body class="link-tab">
     <div class="modal-dialog"> 
         <div class="modal-content">
             <div class="modal-header"  style="background-color: blue; color: white;">
@@ -118,18 +89,17 @@
                                     $result = mysqli_query($link,$query);
                                     if ($result)
                                     {
+                                        header('Location: getAllStudents.php');
                                         echo '<script>alert("Edit success!")</script>';
-                                        header('Location: index.php');
                                     }
                                     else 
                                     {
-                                        echo '<script>alert("Edit fail!")</script>';
-                                        header('Location: index.php');
+                                        header('Location: getAllStudents.php');
+                                        echo '<script>alert("Edit fail!")</script>';                                      
                                     }
                                     DbConnection::closeConnection($link);
                                 }
                             }
-                        }
                         DbConnection::closeConnection($link);
                     ?>
 
@@ -172,8 +142,13 @@
                                 value="<?php echo $user->getPhoneNumber(); ?>" placeholder="Enter phone number...">
                         </div>
                         <button type="submit" class="btn btn-primary" name="btnSubmit">Save</button>
-                        <a style="float: right;" href="./index.php">Back</a>
+                        <a href='./getAllStudents.php' style="float: right;">Back</a>
                     </form>
+                        <?php }
+                        else {                           
+                            header('Location: getAllStudents.php');
+                        }
+                        ?>
                 </div>
             </div>
         </div>

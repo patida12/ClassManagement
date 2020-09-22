@@ -52,7 +52,12 @@ section:after {
 .tab-content  {
   padding: 16px;
   margin-top: 30px;
-  margin-left: 0;
+  margin-left: 15%;
+}
+
+.link-tab {
+  background-color: lightgreen; 
+  background-image: linear-gradient(lightgreen, lightyellow);
 }
 
 @media screen and (max-width: 700px) {
@@ -62,7 +67,7 @@ section:after {
     position: relative;
   }
   #ul_index a {float: left;}
-  #users {
+  #table {
     width: 90%;
     left: 0;
   }
@@ -73,22 +78,22 @@ section:after {
     text-align: center;
     float: none;
   }
-  #users {
+  #table {
     width: 80%;
   }
 }
 
 .my-custom-scrollbar {
   position: relative;
-  width: 125%;
+  width: 80%;
   height: 700px;
   overflow: auto;
   }
 
-th, td {
-  text-align: center;
+.table {
+  background-color: white;
 }
 
-#profile {
-  padding-left: 10%;
+th, td {
+  text-align: center;
 }

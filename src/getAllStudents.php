@@ -4,6 +4,7 @@
     $permission = Permission::hasPermission();
 ?>
 
+<body class="link-tab">
 <section>
     <div class="tab-content">
         <?php
@@ -18,7 +19,7 @@
             }
         ?>
         <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table id="users" class="table table-hover table-bordered table-striped table-inverse table-wrapper-scroll-y" cellspacing="0">
+        <table id="table" class="table table-hover table-bordered table-striped table-inverse table-wrapper-scroll-y" cellspacing="0">
             <thead class="thead-inverse">
                 <tr style="background-color: #555; color: white;">
                     <th>STT</th>
@@ -59,8 +60,9 @@
                 ?>
             </tbody>
         </table>
-            </div>
+        </div>
+        <a href="index.php"><button class="btn btn-primary">Back</button></a>
     </div>
 </section>
-
+</body>
 </html>

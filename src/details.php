@@ -11,20 +11,9 @@
 
 <html>
 <?php include './head.php'; ?>
-<style>
-body {
-    background: #f8f8f8;
-}
-</style>
-
-<body style="background-color: lightgreen; background-image: linear-gradient(lightgreen, lightyellow); font-size: 20px; margin-top: 10%;">
+<body class="link-tab">
 <section>
-<div class="tab-content">
-<div class="container">
-<div class="row flex-lg-nowrap">
-<div class="col">
-<div class="row">
-<div class="col mb-3">
+<div class="tab-content" style="margin-right: 15%; margin-top: 5%;">
 <div class="card">
 <div class="card-body">
 <div class="e-profile">
@@ -99,22 +88,14 @@ body {
                     </div>
                 </div>
                 <div class="row">
-                      <div class="col d-flex justify-content-end">
-                      <a style="float: right;" href="./index.php">
-                      Back
-                    </a>
-                      </div>
+                    <div class="col d-flex justify-content-end">
+                        <a href='javascript:history.back(1);' style="float: right;">Back</a>
                     </div>
+                </div>
             </form>
 
         </div>
     </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
 </div>
 </div>
 </div>

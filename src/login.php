@@ -76,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <html>
 <?php include './head.php'; ?>
 
-<body style="background-color: lightgreen; background-image: linear-gradient(lightgreen, lightyellow);">
+<body class="link-tab">
     <div style="top: 15%;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: blue; color: white;">

@@ -1,4 +1,4 @@
-<?php
+<?php require_once './session.php';
 require_once "./dbConnection.php";
 $link = DbConnection::getConnection();
  
@@ -78,7 +78,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_phonenumber = $phonenumber;
             
             if(mysqli_stmt_execute($stmt)){
-                header("location: login.php");
+                if ($_SESSION["loggedin"]){
+                    header("location: getAllStudents.php");
+                }
+                else {
+                    header("location: login.php");
+                }
+
             } else{
                 echo "Something went wrong. Please try again later.";
             }
