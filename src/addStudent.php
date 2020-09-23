@@ -1,8 +1,5 @@
 <?php include './addUser.php';
-?>
-
-<html>
-<?php include './head.php'; ?>
+    include './head.php'; ?>
 <body class="link-tab">
     </section>
     <div class="modal-dialog">
@@ -55,5 +52,3 @@
         </div>
     </div>
 </body>
-
-</html>

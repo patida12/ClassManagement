@@ -1,5 +1,4 @@
-<html>
-<?php include './head.php'; 
+<?php include './index.php'; 
     include './permission.php';  
     include './dbConnection.php';
 
@@ -18,10 +17,10 @@
     if($assignment) {
         if($permission) {
             ?>
-            <form action="upload.php" method="post" enctype="multipart/form-data">
+            <form class="tab-content" action="upload.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="<?php echo $type; ?>" />
                 <input type="file" name="uploaded_file"><br>
-                <input type="submit" value="Upload file">
+                <input type="submit" value="Upload file" style="margin-top: 1%;">
             </form>
             <?php
         }
@@ -74,10 +73,10 @@
             }
                 ?>
             </tbody>
-        </table>
+            
+        </table><a href="index.php"><button class="btn btn-primary">Back</button></a>
         </div>
-    <a href="index.php"><button class="btn btn-primary">Back</button></a>
+
 </div>
 </section>
 </body>
-</html>

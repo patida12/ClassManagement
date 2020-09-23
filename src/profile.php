@@ -67,8 +67,7 @@
       }
 ?>
 
-<html>
-<?php include './head.php'; ?>
+<?php include './index.php'; ?>
 </style>
 <body class="link-tab">
 <section>
@@ -183,4 +182,4 @@
 </div>
 </section>  
 </body>
-</html>
+

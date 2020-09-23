@@ -9,8 +9,7 @@
       }
 ?>
 
-<html>
-<?php include './head.php'; ?>
+<?php include './index.php'; ?>
 <body class="link-tab">
 <section>
 <div class="tab-content" style="margin-right: 15%; margin-top: 5%;">
@@ -23,7 +22,7 @@
                 <div class="d-flex justify-content-center align-items-center rounded"
                     style="height: 140px; background-color: rgb(233, 236, 239);">
                     <span
-                        style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+                        style="color: rgb(166, 168, 170);">140x140</span>
                 </div>
             </div>
         </div>
@@ -89,7 +88,7 @@
                 </div>
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <a href='javascript:history.back(1);' style="float: right;">Back</a>
+                        <a href='javascript:history.back(1);' style="float: right;"><button type="button" class="btn btn-primary">Back</button></a>
                     </div>
                 </div>
             </form>
@@ -102,5 +101,3 @@
 </div>
 </section>
 </body>
-
-</html>

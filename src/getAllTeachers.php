@@ -1,5 +1,4 @@
-<html>
-<?php include './head.php'; 
+<?php include './index.php'; 
 ?>
 <body class="link-tab">
 <section>
@@ -43,4 +42,3 @@
     </div>
 </section>
 </body>
-</html>

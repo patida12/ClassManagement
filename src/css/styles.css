@@ -50,14 +50,12 @@ section:after {
 }
 
 .tab-content  {
-  padding: 16px;
-  margin-top: 30px;
-  margin-left: 15%;
+  padding-left: 20%;
+  margin-top: 3%;
 }
 
 .link-tab {
-  background-color: lightgreen; 
-  background-image: linear-gradient(lightgreen, lightyellow);
+  background: linear-gradient(lightgreen, lightyellow) fixed;
 }
 
 @media screen and (max-width: 700px) {

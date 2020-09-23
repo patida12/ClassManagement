@@ -1,5 +1,4 @@
-<html>
-<?php include './head.php'; 
+<?php include './index.php'; 
     include './permission.php';  
     require_once './dbConnection.php';
 
@@ -32,7 +31,7 @@
         if($submission) {
             if(!$permission) {
                 ?>
-                <form action="upload.php" method="post" enctype="multipart/form-data">
+                <form class="tab-content" action="upload.php" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="type" value="<?php echo $type; ?>" />
                     <input type="hidden" name="idAssignment" value="<?php echo $id; ?>" />
                     <input type="file" name="uploaded_file"><br>
@@ -42,12 +41,12 @@
             }
             else {
                 if($submission->num_rows == 0) {
-                    echo '<h2>There are no submission!</h2>';
+                    echo '<h2 class="tab-content">There are no submission!</h2>';
                 }
                 else {
         ?>
 
-  <body class="link-tab">
+<body class="link-tab">
   <section>
     <div class="tab-content">
     <h2>List submission</h2>
@@ -93,8 +92,9 @@
             </tbody>
         </table>
         </div>
-    <a href="index.php"><button class="btn btn-primary">Back</button></a>
+    
 </div>
+<a class="tab-content" href="assignment.php"><button class="btn btn-primary">Back</button></a>
 </section>
 </body>
 <?php 
@@ -103,4 +103,3 @@ else {
     header('Location: assignment.php');
 }
 ?>
-</html>

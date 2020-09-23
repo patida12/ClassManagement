@@ -20,7 +20,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
         <ul id="ul_index" class="nav flex-column" >
             <li class="nav-item">
-                <a class="nav-link"  href="#home"><i class="fa fa-home"> Home</i></a>
+                <a class="nav-link"  href="index.php"><i class="fa fa-home"> Home</i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"  href="assignment.php"><i class="fa fa-book"> Assignment</i></a>

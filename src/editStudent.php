@@ -1,5 +1,4 @@
-<html>
-<?php include './head.php'; ?>
+<?php include './index.php'; ?>
 
 <body class="link-tab">
     <div class="modal-dialog"> 
@@ -154,4 +153,3 @@
         </div>
     </div>
 </body>
-</html>

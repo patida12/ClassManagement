@@ -1,5 +1,4 @@
-<html>
-<?php include './head.php'; 
+<?php include './index.php'; 
     include './permission.php';
     $permission = Permission::hasPermission();
 ?>
@@ -65,4 +64,3 @@
     </div>
 </section>
 </body>
-</html>
