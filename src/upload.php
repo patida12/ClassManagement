@@ -1,5 +1,11 @@
-<?php include './session.php'; 
-include './dbConnection.php';
+<?php include './index.php';
+include './session.php'; 
+include './dbConnection.php'; 
+?>
+<body>
+  <section>
+    <div class="tab-content">
+<?php
 $link = DbConnection::getConnection();
 
 if(isset($_FILES['uploaded_file'])) {
@@ -39,9 +45,7 @@ if(isset($_FILES['uploaded_file'])) {
         
     
         if($result) {
-            header('Location: ' . $type . '.php');
-            echo '<script>alert("Success! Your file was successfully added!")</script>';
-            
+            echo '<h2>Success! Your file was successfully added!</h2>';
         }
         else {
             echo 'Error! Failed to insert the file'
@@ -58,6 +62,9 @@ if(isset($_FILES['uploaded_file'])) {
 else {
     echo 'Error! A file was not sent!';
 }
-
 DbConnection::closeConnection($link);
 ?>
+</div>
+<a class="tab-content" href="<?php echo $type; ?>.php"><button class="btn btn-primary">Back</button></a>
+</section>
+</body>

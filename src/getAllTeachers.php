@@ -39,6 +39,6 @@
         </table>
         </div>
         <a href="index.php"><button class="btn btn-primary">Back</button></a>
-    </div>
+</div>
 </section>
 </body>

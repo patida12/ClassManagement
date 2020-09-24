@@ -25,17 +25,21 @@
     {
         $id = $_GET['id'];
         $type = "";
-        if ($permission) $type = "assignment";
-        else $type = "submission";
+        if ($permission) {
+            $type = "assignment";
+        }
+        else {
+            $type = "submission";
+        }
         $submission = getListSubmission($id);
         if($submission) {
             if(!$permission) {
                 ?>
                 <form class="tab-content" action="upload.php" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="type" value="<?php echo $type; ?>" />
-                    <input type="hidden" name="idAssignment" value="<?php echo $id; ?>" />
+                    <input type="hidden" name="idAssignment" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $id; ?>" />
                     <input type="file" name="uploaded_file"><br>
-                    <input type="submit" value="Upload file">
+                    <input type="submit" style="margin-top: 1%; margin-bottom: 1%;" value="Upload file">
                 </form>
                 <?php
             }
@@ -46,7 +50,7 @@
                 else {
         ?>
 
-<body class="link-tab">
+<body>
   <section>
     <div class="tab-content">
     <h2>List submission</h2>

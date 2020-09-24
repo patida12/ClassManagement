@@ -54,10 +54,6 @@ section:after {
   margin-top: 3%;
 }
 
-.link-tab {
-  background: linear-gradient(lightgreen, lightyellow) fixed;
-}
-
 @media screen and (max-width: 700px) {
   #ul_index{
     width: 100%;
