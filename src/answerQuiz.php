@@ -20,6 +20,7 @@
                 $fh = fopen($answer,'r');
                 while ($line = fgets($fh)) {
                     print($line);
+                    echo '<br>';
                 }
                 fclose($fh);  
             }     

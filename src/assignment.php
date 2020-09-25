@@ -30,7 +30,7 @@
         else {
     ?>
 
-  <body class="link-tab">
+  <body>
   <section>
     <div class="tab-content">
     <h2>List Assignment</h2>
@@ -40,7 +40,7 @@
             <thead class="thead-inverse">
                 <tr style="background-color: #555; color: white;">
                     <th>STT</th>
-                    <th>Description</th>
+                    <th>Assigment</th>
                     <th>Created</th>
                     <th>&nbsp;</th>
                 </tr>

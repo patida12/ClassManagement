@@ -18,31 +18,17 @@ if(isset($_FILES['uploaded_file'])) {
         $size = intval($_FILES['uploaded_file']['size']);
     
         if ($type == "assignment") {
-            $query = "
-            INSERT INTO assignment (
-                name, mime, size, data, created, type
-            )
-            VALUES (
-                '{$name}', '{$mime}', {$size}, '{$data}', NOW(), '{$type}'
-            )";
+            $query = "INSERT INTO assignment (name, mime, size, data, created, type) VALUES ('{$name}', '{$mime}', {$size}, '{$data}', NOW(), '{$type}')";
             $result = $link->query($query);
         } else if ($type == "submission" && isset($_SESSION['id'])) {
 
             $idStudent = (int)$_SESSION['id'];
 
-            $query = "
-            INSERT INTO submission (
-                name, idAssignment, idStudent, mime, size, data, created
-            )
-            VALUES (
-                '{$name}', '{$idAssignment}', '{$idStudent}', '{$mime}', {$size}, '{$data}', NOW()
-            )";
+            $query = "INSERT INTO submission (name, idAssignment, idStudent, mime, size, data, created) VALUES ('{$name}', '{$idAssignment}', '{$idStudent}', '{$mime}', {$size}, '{$data}', NOW())";
             $result = $link->query($query);
         } else {
             $result = false;
         }
-    
-        
     
         if($result) {
             echo '<h2>Success! Your file was successfully added!</h2>';

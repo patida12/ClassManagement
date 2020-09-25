@@ -1,56 +1,35 @@
+<?php include './index.php';?>
+<body>
+<section>
+    <div class="tab-content">
 <?php
-include 'dbConnection.php';
+	include './dbConnection.php';
+	$link = DbConnection::getConnection();
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$message = $_POST['message'];
+		$idSender = $_POST['idSender'];
+		$idReceiver = $_POST['idReceiver'];
+		
+		if (!empty($message)) {
+			$query = "INSERT INTO mbox (message, idSender, idReceiver, created) VALUES ('{$message}', '{$idSender}', {$idReceiver}, NOW())";
+			$result = $link->query($query);
+			if($result) {
+				echo '<h2>Success! Your message has been sent!</h2>';
+			}
+			else {
+				echo 'Error! Failed.'
+					. "<pre>{$link->error}</pre>";
+			}
+		} 
+		else {
+			echo '<h2>Please enter message.</h2>';
+		}
+	}
+	else {
+		echo '<h2>Error</h2>';
+	}
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>real time chat system in php</title>
-	<script type="text/javascript">
-		function ajax(){
-		var req=new XMLHttpRequest();
-		req.onreadystatechange=function(){
-		if(req.readyState==4 && req.status==200){
-		document.getElementById('chat').innerHTML=req.responseText;
-
-	}
-
-	}
-	req.open('GET','sendMess.php',true);
-	req.send();
-
-
-	}
-	setInterval(function(){ajax()},1000);
-
-	</script>
-</head>
-<body onload="ajax()">
-	<div id="container">
-	<div id="chat_box">
-		<div id="chat">
-		</div>
-
+		<a href='javascript:history.back(1);'><button type="button" class="btn btn-primary">Back</button></a>
 	</div>
-		<form method="post" action="index.php">
-			<input type="text" name="name" placeholder="Enter name">
-			<textarea name="msg" placeholder="Enter the meassage:)"></textarea>
-			<input type="submit" name="submit" value="Sendit">
-
-		</form>
-<?php
-if (isset($_POST['submit'])) {
-    $sendby  = 1;
-    $sendto = 30;
-	$msg   = $_POST['msg'];
-	$query = "INSERT INTO mbox (message,sendby, sendto) values ('$msg',$sendby, $sendto)";
-	$run   = $conn->query($query);
-	if ($run) {
-		echo "<p>OK</p>";
-	}
-
-}
-?>
-</div>
-
+</section>
 </body>
-</html>

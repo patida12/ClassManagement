@@ -76,22 +76,9 @@
     <div class="card-body">
       <div class="e-profile">
         <div class="row">
-          <div class="col-12 col-sm-auto mb-3">
-            <div class="mx-auto" style="width: 140px;">
-              <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
-              </div>
-            </div>
-          </div>
           <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
             <div class="text-center text-sm-left mb-2 mb-sm-0">
               <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap"><?php echo"{$user->getUserName()}"; ?></h4>
-              <div class="mt-2">
-                <button class="btn btn-primary" type="button">
-                <i class="fas fa-camera"></i>
-                  <span>Change Photo</span>
-                </button>
-              </div>
               <div class="mt-4">
               <a href="./logout.php">
               <button class="btn btn-block btn-secondary">
@@ -103,79 +90,72 @@
             </div>
           </div>
         </div>
-        <ul class="nav nav-tabs">
-          <li class="nav-item"><a href="" class="active nav-link">Settings</a></li>
-        </ul>
-        <div class="tab-content pt-3">
-          <div class="tab-pane active">
-            <form class="form" novalidate="" action="#" method="post">
+        <form class="form" novalidate="" action="#" method="post">
+          <div class="row">
+            <div class="col">
               <div class="row">
                 <div class="col">
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="phonenumber">Phone number: </label>
-                        <input type="text" name="phonenumber" class="form-control" 
-                            value="<?php echo $user->getPhoneNumber(); ?>" placeholder="Enter phone number...">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="email">Email: </label>
-                        <input type="email" class="form-control" name="email"
-                            value="<?php echo $user->getEmail(); ?>" aria-describedby="emailHelpId"
-                            placeholder="Enter email...">
-                        <small id="emailHelpId" class="form-text text-muted">Help text</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 col-sm-6 mb-3">
-                  <div class="mb-2"><b>Change Password</b></div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group <?php echo (!empty($cur_password_err)) ? 'has-error' : ''; ?>">
-                        <label>Current Password</label>
-                        <input type="password" name="cur_password" class="form-control" required>
-                        <span style="color: red;" class="help-block"><?php echo $cur_password_err; ?></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                        <label>New Password</label>
-                        <input type="password" name="password" class="form-control" required>
-                        <span style="color: red;" class="help-block"><?php echo $password_err; ?></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                        <label>Confirm New Password</label>
-                        <input type="password" name="confirm_password" class="form-control" required>
-                        <span style="color: red;" class="help-block"><?php echo $confirm_password_err; ?></span>
-                      </div>
-                    </div>
+                  <div class="form-group">
+                    <label for="phonenumber">Phone number: </label>
+                    <input type="text" name="phonenumber" class="form-control" 
+                        value="<?php echo $user->getPhoneNumber(); ?>" placeholder="Enter phone number...">
                   </div>
                 </div>
                 <div class="col">
-                    <div class="form-group">
-                      <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                    </div>
+                  <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input type="email" class="form-control" name="email"
+                        value="<?php echo $user->getEmail(); ?>" aria-describedby="emailHelpId"
+                        placeholder="Enter email...">
+                    <small id="emailHelpId" class="form-text text-muted">Help text</small>
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col d-flex justify-content-end">
-                  <button name="btnSubmit" class="btn btn-primary" type="submit">Save Changes</button>
-                </div>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 mb-3">
+              <div class="mb-2"><b>Change Password</b></div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group <?php echo (!empty($cur_password_err)) ? 'has-error' : ''; ?>">
+                    <label>Current Password</label>
+                    <input type="password" name="cur_password" class="form-control" required>
+                    <span style="color: red;" class="help-block"><?php echo $cur_password_err; ?></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                    <label>New Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                    <span style="color: red;" class="help-block"><?php echo $password_err; ?></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                    <label>Confirm New Password</label>
+                    <input type="password" name="confirm_password" class="form-control" required>
+                    <span style="color: red;" class="help-block"><?php echo $confirm_password_err; ?></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                  <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col d-flex justify-content-end">
+              <button name="btnSubmit" class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+          </div>
+        </form>
       </div><a href="index.php"><button class="btn btn-primary">Back</button></a>
     </div>   
   </div>

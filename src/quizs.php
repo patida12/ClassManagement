@@ -5,24 +5,68 @@
     $permission = Permission::hasPermission();
     $link = DbConnection::getConnection();
 
+function deleteQuiz($id) {
+    $link = DbConnection::getConnection();
+    $query = "DELETE FROM quizs WHERE id=$id";
+    $result = $link->query($query);
+    if($result) {
+        echo '<h2 class="tab-content">Bạn đã xóa thành công!</h2>';
+    }
+    else {
+        echo 'Error! Failed to delete the file'
+            . "<pre>{$link->error}</pre>";
+    }
+    DbConnection::closeConnection($link);
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $error = array();
     $description = $_POST['description'];
     $target_dir = "./quizs/";
+    $name = $_FILES['fileUpload']['name'];
     $target_file = $target_dir . basename($_FILES['fileUpload']['name']);
 
     $type_file = pathinfo($_FILES['fileUpload']['name'], PATHINFO_EXTENSION);
     $type_fileAllow = array('txt');
     if (!in_array(strtolower($type_file), $type_fileAllow)) {
-        echo '<h2 class="tab-content">File bạn vừa chọn hệ thống không hỗ trợ, bạn vui lòng chọn hình ảnh</h2>';
+        echo '<h2 class="tab-content">File bạn vừa chọn hệ thống không hỗ trợ, bạn vui lòng chọn file .txt</h2>';
     }
     else
     {
         if (file_exists($target_file)) {
-            echo '<h2 class="tab-content">File bạn chọn đã tồn tại trên hệ thống</h2>';
+            $createdFile = date ("Y-m-d H:i:s", filemtime($target_file));
+            $query = "SELECT id, description, created FROM quizs WHERE created='{$createdFile}'";
+            $result = mysqli_query($link, $query);
+
+            if ($result) {
+                $newFile = fopen($_FILES["fileUpload"]["tmp_name"],'r');
+                $body = "";
+                while ($line = fgets($newFile)) {
+                    $body = $body . $line;
+                }
+                fclose($newFile);
+
+                $oldFile = fopen($target_file, 'w');
+                fwrite($oldFile, $body);
+                fclose($oldFile);
+
+                $query = "UPDATE quizs SET description = '{$description}', created = NOW() WHERE created='{$createdFile}'";
+                $result = $link->query($query);
+                if($result) {
+                    echo '<h2 class="tab-content">Bạn đã upload file thành công!</h2>';
+                }
+                else {
+                    echo 'Error! Failed to insert the file'
+                        . "<pre>{$link->error}</pre>";
+                }
+            }
+            else {
+                echo 'Error!'
+                        . "<pre>{$link->error}</pre>";
+            }
+            
         }
-        else 
-        {
+        else {
             if (empty($error)) {
                 if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
                     $query = "INSERT INTO quizs (description, created) VALUES ('{$description}',  NOW())";
@@ -39,6 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
         }
+
+        
     }  
 }
 ?>
@@ -53,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <input type="file" name="fileUpload"  id="fileUpload" >
             <br><br>     
             <h4><b>Description:</b></h4>
-            <textarea rows="5" id="description" name="description" style="width: 50%;"></textarea><br>
+            <textarea rows="5" id="description" name="description" style="width: 80%;"></textarea><br>
             <input type="submit" name="submit" class="btn btn-primary" style="margin-top: 1%; margin-bottom: 1%;"><br>
         </form>
         <?php
@@ -73,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <th>STT</th>
                     <th>Question</th>
                     <th>Created</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -84,33 +131,45 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         echo "<tr>";
                         echo "<td>{$index}</td>";
                         echo '<td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal' .  $index . '">Question ' .  $index . ' </button>
-                        <div class="modal" id="myModal' .  $index . '">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                            
-                                <div class="modal-header">
-                                <h4 class="modal-title">Question ' .  $index . ' </h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="modal" id="myModal' .  $index . '">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    
+                                        <div class="modal-header">
+                                        <h4 class="modal-title">Question ' .  $index . ' </h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+            
+                                        <div class="modal-body">
+                                        <p>' . $row["description"] . '</p>
+                                        
+                                        </div>
+            
+                                        <div class="modal-footer">
+                                        <form action="answerQuiz.php" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="created" value="' . $row["created"] . '" />
+                                            <label>Answer here...(Viet khong dau, moi tu cach nhau 1 dau cach, vi du: tra loi)</label>
+                                            <input type="text" name="submission" style="margin-bottom: 3%;" ><br>
+                                            <input type="submit" value="Submit" class="btn btn-primary">
+                                        </form>
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
                                 </div>
-    
-                                <div class="modal-body">
-                                <p>' . $row["description"] . '</p>
-                                
-                                </div>
-    
-                                <div class="modal-footer">
-                                <form action="answerQuiz.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="created" value="' . $row["created"] . '" />
-                                    <label>Answer here...(Viet khong dau, moi tu cach nhau 1 dau cach, vi du: tra loi)</label>
-                                    <input type="text" name="submission" style="margin-bottom: 3%;" ><br>
-                                    <input type="submit" value="Submit" class="btn btn-primary">
-                                </form>
-                                </div>
-                                
-                            </div>
-                            </div>
-                        </div></td>';
-                        echo "<td>{$row['created']}</td>";
+                            </td>
+                            <td>' . $row['created'] . '</td>';
+                            if ($permission) {
+                                echo '<td>
+                                        <a style="color: white;" href="editQuiz.php?id=' . $row['id'] . '">
+                                        <button class="btn btn-warning btn-sm">Edit</button></a>
+                                        <a style="color: white;" href="deleteQuiz.php?id=' . $row['id'] . '&created=' . $row['created'] . '">';
+                            ?>
+                                        <button onclick="return  confirm('Do you want to delete this student?')" class="btn btn-danger btn-sm">Delete</button></a>
+                                    </td>
+                            <?php
+                            }
+                
                 ?>
                 <?php        
                     }
@@ -121,9 +180,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 ?>
             </tbody>
             
-        </table><a href="index.php"><button class="btn btn-primary">Back</button></a>
+        </table>
+        <a href="index.php"><button class="btn btn-primary">Back</button></a>
         </div>
-
 </div>
 </section>
 </body>

@@ -61,7 +61,7 @@
                 <tr style="background-color: #555; color: white;">
                     <th>STT</th>
                     <th>Student</th>
-                    <th>Description</th>
+                    <th>Submited File</th>
                     <th>Created</th>
                     <th>&nbsp;</th>
                 </tr>
