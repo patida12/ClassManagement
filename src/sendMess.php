@@ -1,12 +1,12 @@
-<?php include './index.php';?>
-<body>
-<section>
-    <div class="tab-content">
-<?php
-	include './dbConnection.php';
-	$link = DbConnection::getConnection();
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$message = $_POST['message'];
+<?php include './index.php'; 
+include './session.php';
+require_once './users.php';
+require_once './dbConnection.php';
+
+    $link = DbConnection::getConnection();
+    
+    if(isset($_POST['btnSubmit'])) {
+        $message = $_POST['message'];
 		$idSender = $_POST['idSender'];
 		$idReceiver = $_POST['idReceiver'];
 		
@@ -14,22 +14,84 @@
 			$query = "INSERT INTO mbox (message, idSender, idReceiver, created) VALUES ('{$message}', '{$idSender}', {$idReceiver}, NOW())";
 			$result = $link->query($query);
 			if($result) {
-				echo '<h2>Success! Your message has been sent!</h2>';
+				echo 'OK';
 			}
 			else {
-				echo 'Error! Failed.'
-					. "<pre>{$link->error}</pre>";
+				echo "Error! Add Failed." . "<pre>{$link->error}</pre>";
 			}
 		} 
 		else {
 			echo '<h2>Please enter message.</h2>';
 		}
 	}
-	else {
-		echo '<h2>Error</h2>';
-	}
 ?>
-		<a href='javascript:history.back(1);'><button type="button" class="btn btn-primary">Back</button></a>
-	</div>
-</section>
+
+<body>
+  <section  class="mbox">
+    <div class="tab-content">
+        <?php
+            $result = false;
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                $idSender = $_POST['idSender'];
+                $idReceiver = $_POST['idReceiver'];
+                $sender = $_SESSION['username'];
+                $receiver = $_POST['nameReceiver'];
+                $query = "SELECT * FROM mbox WHERE (idSender=$idSender AND idReceiver=$idReceiver) OR (idSender=$idReceiver AND idReceiver=$idSender)";
+                $result = $link->query($query);
+            }
+            if($result) {
+                while($row = $result->fetch_assoc())
+                {
+                    if ($idSender == $row['idSender']){         
+                        echo '<div class="container send btn btn-primary" type="button" data-toggle="collapse" data-target="#mess' . $row['id'] . '">';
+                        echo $row['message'] . " " . ":<strong><i class='fa fa-user-circle'>$sender</i></strong>";
+                        echo '<br><span class="time-right">' . $row['created'] .'</span>
+                        </div>';
+                        echo '<div id="mess' . $row['id'] . '" class="collapse" style="float:right; margin: 10px 0;"> 
+                        <button class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#edit' . $row['id'] . '">Edit</button>';
+                        ?>
+                        <form action="editMess.php" method="POST" id="edit<?php echo $row['id'] ?>" class="collapse">   
+                            <input type="hidden" name="idEdit" value="<?php echo $row['id'] ?>" />
+                            <textarea rows="3" id="messageEdit" name="messageEdit" style="width: 100%;"></textarea><br>
+                            <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 1%; margin-bottom: 1%;">Submit</button>
+                        </form>
+                        <a style="color: white;" href="deleteMess.php?id=<?php echo $row['id'] ?>">
+                        <button onclick="return  confirm('Do you want to delete this message?')" class="btn btn-danger btn-sm">Delete</button>
+                        </a>
+                        </div>
+                        <?php
+                        echo '<br>';
+                        
+                    }
+
+                    if ($idReceiver == $row['idSender']){
+                        echo '<div class="container receive">';
+                        echo "<strong><i class='fa fa-user-circle'>$receiver</i></strong>:" . " " .$row['message'];
+                        echo '<br><span class="time-left">' . $row['created'] .'</span>
+                        </div>';
+                        echo '<br>';
+                    }  
+                }
+                    echo '<div class="container box-message">';
+        ?>
+        
+                    <form action="#" method="POST">   
+                        <input type="hidden" name="idSender" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $idSender; ?>" />
+                        <input type="hidden" name="idReceiver" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $idReceiver; ?>" />
+                        <textarea rows="3" id="message" name="message" style="width: 100%;"></textarea><br>
+                        <button type="submit" class="btn btn-primary" name="btnSubmit" style="margin-top: 1%; margin-bottom: 1%;">Send</button> 
+                    </form>
+                    </div>
+        <?php
+                }
+            else {
+                echo 'Error! Failed.' . "<pre>{$link->error}</pre>";
+            }
+            DbConnection::closeConnection($conn);
+            ?>
+ 
+        </div>
+    </section>
 </body>
+
+

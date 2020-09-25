@@ -7,6 +7,7 @@
           $id = $_GET['id'];
           $user = User::getById($id);        
       }
+      DbConnection::closeConnection($link);
 ?>
 
 <?php include './index.php'; ?>
@@ -23,30 +24,12 @@
                 <h2 class="pt-sm-2 pb-1 mb-0 text-nowrap">
                     <?php echo"{$user->getUserName()}"; ?></h2>
                 <div class="mt-2">
-                    <a href="#demo" class="btn btn-block btn-success" data-toggle="modal" data-target="#myModal">
-                        <i class="fab fa-facebook-messenger"></i>
-                        <span>Send Message</span>
-                    </a>
-                    <div class="modal" id="myModal">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                            <h4 class="modal-title">Enter message here...</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <div class="modal-body">
-                            <form action="sendMess.php" id="form_upload" method="POST">   
-                                <input type="hidden" name="idSender" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $_SESSION['id']; ?>" />
-                                <input type="hidden" name="idReceiver" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $id; ?>" />
-                                <textarea rows="5" id="message" name="message" style="width: 100%;"></textarea><br>
-                                <input type="submit" name="submit" value="Send" class="btn btn-primary"><br>
-                            </form>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
+                    <form action="sendMess.php" id="form_upload" method="POST">   
+                        <input type="hidden" name="idSender" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $_SESSION['id']; ?>" />
+                        <input type="hidden" name="idReceiver" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $id; ?>" />
+                        <input type="hidden" name="nameReceiver" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $user->getUserName() ?>" />
+                        <input type="submit" name="submit" value="Send Message" class="btn btn-primary"><br>
+                    </form>
                 </div>
             </div>
         </div>
