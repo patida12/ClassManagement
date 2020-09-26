@@ -3,7 +3,7 @@
     $permission = Permission::hasPermission();
 ?>
 
-<body class="link-tab">
+<body>
 <section>
     <div class="tab-content">
         <?php

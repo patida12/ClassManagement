@@ -1,17 +1,17 @@
 <?php include './session.php';
       require_once './users.php';
-      $link = DbConnection::getConnection();
+      $conn = DbConnection::getConnection();
 
       if (isset($_GET['id']) && is_numeric($_GET['id']))
       {
           $id = $_GET['id'];
           $user = User::getById($id);        
       }
-      DbConnection::closeConnection($link);
+      DbConnection::closeConnection($conn);
 ?>
 
 <?php include './index.php'; ?>
-<body class="link-tab">
+<body>
 <section>
 <div class="tab-content" style="margin-right: 15%; margin-top: 5%;">
 <div class="card">
@@ -77,8 +77,6 @@
             </div>
         </div>
     </form>
-
-
 </div>
 </div>
 </div>

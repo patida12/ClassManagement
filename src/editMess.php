@@ -1,17 +1,23 @@
 <?php include './index.php'; 
 require_once './dbConnection.php';
-$link = DbConnection::getConnection();
+$conn = DbConnection::getConnection();
+?>
+
+<?php
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $idEdit = $_POST['idEdit'];
+		$idEdit = $_POST['idEdit'];
+		$idSender = $_POST['idSender'];
+		$idReceiver = $_POST['idReceiver'];
+		$receiver = $_POST['receiver'];
         $messageEdit = $_POST['messageEdit'];
         if (!empty($messageEdit)) {
 			$query = "UPDATE mbox SET message='{$messageEdit}' WHERE id=$idEdit";
-			$result = $link->query($query);
+			$result = $conn->query($query);
 			if($result) {
                 echo '<h2 class="tab-content">Success! Your message has been updated!</h2>';
 			}
 			else {
-				echo "<h2 class='tab-content'>Error! Edit Failed." . "<pre>{$link->error}</pre></h2>";
+				echo "<h2 class='tab-content'>Error! Edit Failed." . "<pre>{$conn->error}</pre></h2>";
 			}
 		} 
 		else {
@@ -20,4 +26,10 @@ $link = DbConnection::getConnection();
     }
     DbConnection::closeConnection($conn);
 ?>
-<a href='javascript:history.back(1);'><button type="button" class="btn btn-primary tab-content">Back</button></a>
+
+<form action="sendMess.php" id="form_upload" method="POST" class="tab-content">   
+	<input type="hidden" name="idSender" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $idSender; ?>" />
+	<input type="hidden" name="idReceiver" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $idReceiver; ?>" />
+	<input type="hidden" name="nameReceiver" style="margin-top: 1%; margin-bottom: 1%;" value="<?php echo $receiver ?>" />
+	<input type="submit" name="submit" value="Back" class="btn btn-primary"><br>
+</form>

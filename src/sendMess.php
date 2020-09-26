@@ -1,23 +1,22 @@
 <?php include './index.php'; 
 include './session.php';
-require_once './users.php';
 require_once './dbConnection.php';
 
-    $link = DbConnection::getConnection();
+    $conn = DbConnection::getConnection();
     
     if(isset($_POST['btnSubmit'])) {
         $message = $_POST['message'];
 		$idSender = $_POST['idSender'];
 		$idReceiver = $_POST['idReceiver'];
-		
+        
 		if (!empty($message)) {
 			$query = "INSERT INTO mbox (message, idSender, idReceiver, created) VALUES ('{$message}', '{$idSender}', {$idReceiver}, NOW())";
-			$result = $link->query($query);
+			$result = $conn->query($query);
 			if($result) {
 				echo 'OK';
 			}
 			else {
-				echo "Error! Add Failed." . "<pre>{$link->error}</pre>";
+				echo "Error! Add Failed." . "<pre>{$conn->error}</pre>";
 			}
 		} 
 		else {
@@ -36,8 +35,20 @@ require_once './dbConnection.php';
                 $idReceiver = $_POST['idReceiver'];
                 $sender = $_SESSION['username'];
                 $receiver = $_POST['nameReceiver'];
+
+                $query = "SELECT id FROM mbox WHERE idSender=$idReceiver AND idReceiver=$idSender";
+                $result = $conn->query($query);
+                if($result) {
+                    while($row = $result->fetch_assoc())
+                    {
+                        $idMess = $row['id'];
+                        $queryUpdate = "UPDATE mbox SET isRead=true WHERE id=$idMess";
+                        $resultUpdate = $conn->query($queryUpdate);
+                    }
+                }
+
                 $query = "SELECT * FROM mbox WHERE (idSender=$idSender AND idReceiver=$idReceiver) OR (idSender=$idReceiver AND idReceiver=$idSender)";
-                $result = $link->query($query);
+                $result = $conn->query($query);
             }
             if($result) {
                 while($row = $result->fetch_assoc())
@@ -50,7 +61,10 @@ require_once './dbConnection.php';
                         echo '<div id="mess' . $row['id'] . '" class="collapse" style="float:right; margin: 10px 0;"> 
                         <button class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#edit' . $row['id'] . '">Edit</button>';
                         ?>
-                        <form action="editMess.php" method="POST" id="edit<?php echo $row['id'] ?>" class="collapse">   
+                        <form action="editMess.php" method="POST" id="edit<?php echo $row['id'] ?>" class="collapse">  
+                            <input type="hidden" name="idSender" value="<?php echo $idSender; ?>" />
+                            <input type="hidden" name="idReceiver" value="<?php echo $idReceiver; ?>" />
+                            <input type="hidden" name="nameReceiver" value="<?php echo $receiver ?>" /> 
                             <input type="hidden" name="idEdit" value="<?php echo $row['id'] ?>" />
                             <textarea rows="3" id="messageEdit" name="messageEdit" style="width: 100%;"></textarea><br>
                             <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 1%; margin-bottom: 1%;">Submit</button>
@@ -85,7 +99,7 @@ require_once './dbConnection.php';
         <?php
                 }
             else {
-                echo 'Error! Failed.' . "<pre>{$link->error}</pre>";
+                echo 'Error! Failed.' . "<pre>{$conn->error}</pre>";
             }
             DbConnection::closeConnection($conn);
             ?>

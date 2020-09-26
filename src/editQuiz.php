@@ -3,7 +3,7 @@
     require_once './dbConnection.php';
 
     $permission = Permission::hasPermission();
-    $link = DbConnection::getConnection();
+    $conn = DbConnection::getConnection();
     if (isset($_GET['id']) && is_numeric($_GET['id']))
     {
         $id = $_GET['id'];
@@ -11,17 +11,17 @@
             $description = $_POST['editedDescription'];
     
             $query = "UPDATE quizs SET description = '{$description}' WHERE id=$id";
-            $result = $link->query($query);
+            $result = $conn->query($query);
             if($result) {
                 echo '<h2 class="tab-content">Bạn đã sửa thành công</h2>';
             }
             else {
                 echo 'Error! Failed to insert the file'
-                    . "<pre>{$link->error}</pre>";
+                    . "<pre>{$conn->error}</pre>";
             }
         }
-    }
-    
+    }  
+    DbConnection::closeConnection($conn);  
 ?>
 
 <body>

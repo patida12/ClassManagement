@@ -5,7 +5,7 @@
 <div class="tab-content">
 <?php
     require_once './dbConnection.php';
-    $link = DbConnection::getConnection();
+    $conn = DbConnection::getConnection();
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $submission = $_POST['submission'];
@@ -39,6 +39,7 @@
     else {                           
         header('Location: quizs.php');
     }
+    DbConnection::closeConnection($conn);
 ?>
 
 

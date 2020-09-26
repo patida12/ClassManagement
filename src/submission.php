@@ -3,22 +3,22 @@
     require_once './dbConnection.php';
 
     $permission = Permission::hasPermission();
-    $link = DbConnection::getConnection();
+    $conn = DbConnection::getConnection();
 
     function getListSubmission($idAssignment) 
     {
-        $link = DbConnection::getConnection();
+        $conn = DbConnection::getConnection();
         $sqlSubmission = "SELECT * FROM submission WHERE idAssignment=$idAssignment";
-        $submission = $link->query($sqlSubmission);
-        DbConnection::closeConnection($link);
+        $submission = $conn->query($sqlSubmission);
+        DbConnection::closeConnection($conn);
         return $submission;
     }
     function getStudentName($idStudent) 
     {
-        $link = DbConnection::getConnection();
+        $conn = DbConnection::getConnection();
         $sql = "SELECT fullname FROM users WHERE id=$idStudent";
-        $student = $link->query($sql);
-        DbConnection::closeConnection($link);
+        $student = $conn->query($sql);
+        DbConnection::closeConnection($conn);
         return $student;
     }
     if (isset($_GET['id']) && is_numeric($_GET['id']))
@@ -88,7 +88,7 @@
                 <?php       
                     }
                     $submission->free();
-                        DbConnection::closeConnection($link);
+                        DbConnection::closeConnection($conn);
                     }
                 }
             }

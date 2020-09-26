@@ -3,7 +3,7 @@
     include './dbConnection.php';
 
     $permission = Permission::hasPermission();
-    $link = DbConnection::getConnection();
+    $conn = DbConnection::getConnection();
     $type = ""; 
 
     if ($permission) {
@@ -13,7 +13,7 @@
         $type = "submission";
     }
     $sqlAssignment = 'SELECT id, name, mime, size, created, type FROM assignment WHERE type = "assignment"';
-    $assignment = $link->query($sqlAssignment);
+    $assignment = $conn->query($sqlAssignment);
     if($assignment) {
         if($permission) {
             ?>
@@ -68,7 +68,7 @@
                 <?php        
                     }
                     $assignment->free();
-                        DbConnection::closeConnection($link);
+                    DbConnection::closeConnection($conn);
                 }
             }
                 ?>

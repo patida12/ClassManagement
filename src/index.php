@@ -16,8 +16,8 @@ function active($currect_page){
 ?>
 
  
-<!doctype html>
-<html lang="en">
+<!Doctype html>
+<html>
 <?php include './head.php'; ?>
 
 <body>

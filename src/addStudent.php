@@ -1,6 +1,6 @@
 <?php include './addUser.php';
-    include './head.php'; ?>
-<body class="link-tab">
+    include './index.php'; ?>
+<body>
     </section>
     <div class="modal-dialog">
         <div class="modal-content">

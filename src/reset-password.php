@@ -7,7 +7,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
  
 require_once "dbConnection.php";
-$link = DbConnection::getConnection();
+$conn = DbConnection::getConnection();
 
 $new_password = $confirm_password = "";
 $new_password_err = $confirm_password_err = "";
@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $sql = "UPDATE users SET password = ? WHERE id = ?";
         
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "si", $param_password, $param_id);
             
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
@@ -53,12 +53,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     
-    DbConnection::closeConnection($link);
+    DbConnection::closeConnection($conn);
 }
 ?>
  
-<!DOCTYPE html>
-<html lang="en">
 <?php include './head.php'; ?>
 <body>
     <div class="wrapper">
@@ -82,4 +80,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </form>
     </div>    
 </body>
-</html>

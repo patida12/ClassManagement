@@ -1,6 +1,6 @@
 <?php include './index.php'; ?>
 
-<body class="link-tab">
+<body>
     <div class="modal-dialog"> 
         <div class="modal-content">
             <div class="modal-header"  style="background-color: blue; color: white;">
@@ -10,7 +10,7 @@
                 <div class="container">
                     <?php require_once './dbConnection.php'; 
                         require_once './users.php';
-                        $link = DbConnection::getConnection();
+                        $conn = DbConnection::getConnection();
 
                         $username = $fullname = $password = $confirm_password = $email = $phonenumber = "";
                         $username_err = $fullname_err = $password_err = $confirm_password_err = "";
@@ -20,7 +20,7 @@
                             $user = User::getById($id);
                             if(isset($_POST['btnSubmit']))
                             {
-                                $link = DbConnection::getConnection();
+                                $conn = DbConnection::getConnection();
                                 $id = $_POST['id'];
                                 $email = $_POST['email'];
                                 $phonenumber = $_POST['phonenumber'];
@@ -32,7 +32,7 @@
                                 else{
                                     $sql = "SELECT id FROM users WHERE username = ?";
                                     
-                                    if($stmt = mysqli_prepare($link, $sql)){
+                                    if($stmt = mysqli_prepare($conn, $sql)){
 
                                         mysqli_stmt_bind_param($stmt, "s", $param_username);
                                         
@@ -85,21 +85,23 @@
                                     $param_password = password_hash($password, PASSWORD_DEFAULT); 
                                     $query = "UPDATE users SET username='$param_username', password='$param_password', fullname='$fullname', email='$email', phonenumber='$phonenumber' WHERE id='$id';";
                                     
-                                    $result = mysqli_query($link,$query);
+                                    $result = mysqli_query($conn,$query);
                                     if ($result)
                                     {
-                                        header('Location: getAllStudents.php');
-                                        echo '<script>alert("Edit success!")</script>';
+                                        echo '<div class="alert alert-success">
+                                                <strong>Success!</strong>
+                                            </div>';
                                     }
                                     else 
                                     {
-                                        header('Location: getAllStudents.php');
-                                        echo '<script>alert("Edit fail!")</script>';                                      
+                                        echo '<div class="alert alert-danger">
+                                                <strong>Failt!</strong>
+                                            </div>';
                                     }
-                                    DbConnection::closeConnection($link);
+                                    DbConnection::closeConnection($conn);
                                 }
                             }
-                        DbConnection::closeConnection($link);
+                        DbConnection::closeConnection($conn);
                     ?>
 
                     <form action="#" method="post">

@@ -1,5 +1,5 @@
 <?php include './dbConnection.php';
-$link = DbConnection::getConnection();
+$conn = DbConnection::getConnection();
 
 if(isset($_GET['id']) && isset($_GET['type'])) {
     $type = strval($_GET['type']);
@@ -16,15 +16,17 @@ if(isset($_GET['id']) && isset($_GET['type'])) {
             SELECT mime, name, size, data
             FROM assignment
             WHERE id = {$id}";
-        $result = $link->query($query);
+        $result = $conn->query($query);
         } else if ($type == "submission"){
             $query = "
             SELECT mime, name, size, data
             FROM submission
             WHERE id = {$id}";
-        $result = $link->query($query);
-        } else $result = false;
- 
+        $result = $conn->query($query);
+        } else {
+            $result = false;
+        }
+
         if($result) {
             if($result->num_rows == 1) {
                 $row = mysqli_fetch_assoc($result);
@@ -44,7 +46,7 @@ if(isset($_GET['id']) && isset($_GET['type'])) {
         else {
             echo "Error! Query failed: <pre>{$type}</pre>";
         }
-        @mysqli_close($link);
+        @mysqli_close($conn);
     }
 }
 else {

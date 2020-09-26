@@ -1,7 +1,7 @@
-<?php include './index.php';
+<?php 
 require_once './session.php';
 require_once "./dbConnection.php";
-$link = DbConnection::getConnection();
+$conn = DbConnection::getConnection();
  
 $username = $fullname = $password = $confirm_password = $email = $phonenumber = "";
 $username_err = $fullname_err = $password_err = $confirm_password_err = "";
@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username_err = "Please enter a username.";
     } else{
         $sql = "SELECT id FROM users WHERE username = ?";      
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "s", $param_username);           
             $param_username = trim($_POST["username"]);
             
@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
         $sql = "INSERT INTO users (username, password, fullname, email, phonenumber) VALUES (?, ?, ?, ?, ?)";
          
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "sssss", $param_username, $param_password, $param_fullname, $param_email, $param_phonenumber);
             
             // Set parameters
@@ -90,6 +90,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     
-    DbConnection::closeConnection($link);
+    DbConnection::closeConnection($conn);
 }
 ?>

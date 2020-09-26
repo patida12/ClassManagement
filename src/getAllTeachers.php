@@ -1,6 +1,6 @@
 <?php include './index.php'; 
 ?>
-<body class="link-tab">
+<body>
 <section>
     <div class="tab-content">
         <h2>List Teachers</h2>

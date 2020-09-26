@@ -3,20 +3,20 @@
     require_once './dbConnection.php';
 
     $permission = Permission::hasPermission();
-    $link = DbConnection::getConnection();
+    $conn = DbConnection::getConnection();
 
 function deleteQuiz($id) {
-    $link = DbConnection::getConnection();
+    $conn = DbConnection::getConnection();
     $query = "DELETE FROM quizs WHERE id=$id";
-    $result = $link->query($query);
+    $result = $conn->query($query);
     if($result) {
         echo '<h2 class="tab-content">Bạn đã xóa thành công!</h2>';
     }
     else {
         echo 'Error! Failed to delete the file'
-            . "<pre>{$link->error}</pre>";
+            . "<pre>{$conn->error}</pre>";
     }
-    DbConnection::closeConnection($link);
+    DbConnection::closeConnection($conn);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (file_exists($target_file)) {
             $createdFile = date ("Y-m-d H:i:s", filemtime($target_file));
             $query = "SELECT id, description, created FROM quizs WHERE created='{$createdFile}'";
-            $result = mysqli_query($link, $query);
+            $result = mysqli_query($conn, $query);
 
             if ($result) {
                 $newFile = fopen($_FILES["fileUpload"]["tmp_name"],'r');
@@ -51,18 +51,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 fclose($oldFile);
 
                 $query = "UPDATE quizs SET description = '{$description}', created = NOW() WHERE created='{$createdFile}'";
-                $result = $link->query($query);
+                $result = $conn->query($query);
                 if($result) {
-                    echo '<h2 class="tab-content">Bạn đã upload file thành công!</h2>';
+                    echo '<h2 class="tab-content">Upload Success!</h2>';
                 }
                 else {
-                    echo 'Error! Failed to insert the file'
-                        . "<pre>{$link->error}</pre>";
+                    echo 'Error! Failed to insert the file.'
+                        . "<pre>{$conn->error}</pre>";
                 }
             }
             else {
                 echo 'Error!'
-                        . "<pre>{$link->error}</pre>";
+                        . "<pre>{$conn->error}</pre>";
             }
             
         }
@@ -70,16 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (empty($error)) {
                 if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
                     $query = "INSERT INTO quizs (description, created) VALUES ('{$description}',  NOW())";
-                    $result = $link->query($query);
+                    $result = $conn->query($query);
                     if($result) {
-                        echo '<h2 class="tab-content">Bạn đã upload file thành công</h2>';
+                        echo '<h2 class="tab-content">Upload Success!</h2>';
                     }
                     else {
                         echo 'Error! Failed to insert the file'
-                            . "<pre>{$link->error}</pre>";
+                            . "<pre>{$conn->error}</pre>";
                     }
                 } else {
-                    echo '<h2 class="tab-content">File bạn vừa upload gặp sự cố</h2>';
+                    echo '<h2 class="tab-content">Failt!</h2>';
                 }
             }
         }
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <?php
     }
     $sqlQuiz = 'SELECT id, description, created FROM quizs';
-    $quizs = $link->query($sqlQuiz);
+    $quizs = $conn->query($sqlQuiz);
     if($quizs->num_rows == 0) {
         echo '<h2>There are no assignment!</h2>';
     }
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <?php        
                     }
                     $assignment->free();
-                        DbConnection::closeConnection($link);
+                        DbConnection::closeConnection($conn);
                 }
 
                 ?>

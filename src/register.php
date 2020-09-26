@@ -4,7 +4,7 @@
 <html>
 <?php include './head.php'; ?>
 
-<body style="background-color: lightgreen; background-image: linear-gradient(lightgreen, lightyellow);">
+<body>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: blue; color: white;">

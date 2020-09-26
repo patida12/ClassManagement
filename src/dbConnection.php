@@ -9,15 +9,15 @@ class DbConnection
         $dbname = "class_management";
         $conn = mysqli_connect($hostname, $uname, $passwd,$dbname);
         if (!$conn) {
-            die('Không thể kết nối: ' . mysqli_error($conn));
+            die('Can not connect: ' . mysqli_error($conn));
             exit();
         }
         return $conn;
     }
 
-    public static function closeConnection($link)
+    public static function closeConnection($conn)
     {
-        mysqli_close($link);
+        mysqli_close($conn);
     }
 }
 ?>

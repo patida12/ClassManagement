@@ -7,7 +7,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 }
  
 require_once "dbConnection.php";
-$link = DbConnection::getConnection();
+$conn = DbConnection::getConnection();
 
 $username = $password = "";
 $username_err = $password_err = "";
@@ -32,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err)){
         $sql = "SELECT id, username, password, permission FROM users WHERE username = ?";
         
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
             // Set parameters
@@ -69,14 +69,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     
-    DbConnection::closeConnection($link);
+    DbConnection::closeConnection($conn);
 }
 ?>
 
 <html>
 <?php include './head.php'; ?>
 
-<body class="link-tab">
+<body>
     <div style="top: 15%;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: blue; color: white;">

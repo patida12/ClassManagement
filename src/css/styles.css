@@ -145,3 +145,10 @@ th, td {
   float: left;
   color: black;
 }
+.badge {
+  position: absolute;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
