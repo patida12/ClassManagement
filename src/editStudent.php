@@ -116,13 +116,13 @@
                         <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                             <label>Password</label>
                             <input type="password" name="password" class="form-control" required
-                                value="<?php echo $user->getPassword(); ?>">
+                                placeholder="********">
                             <span style="color: red;" class="help-block"><?php echo $password_err; ?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
                             <label>Confirm Password</label>
                             <input type="password" name="confirm_password" class="form-control" required
-                                value="<?php echo $user->getPassword(); ?>">
+                                placeholder="********">
                             <span style="color: red;" class="help-block"><?php echo $confirm_password_err; ?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($fullname_err)) ? 'has-error' : ''; ?>">

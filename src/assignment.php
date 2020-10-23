@@ -25,7 +25,7 @@
             <?php
         }
         if($assignment->num_rows == 0) {
-            echo '<h2>There are no assignment!</h2>';
+            echo '<h2 class="tab-content">There are no assignment!</h2>';
         }
         else {
     ?>
@@ -64,8 +64,15 @@
                 <?php              
                         echo '<a style="color: white;" href="submission.php?id=' . $row['id'] . '">' ;
                 ?>
-                        <button class="btn btn-info btn-sm">Submission</button></a></td>
-                <?php        
+                        <button class="btn btn-info btn-sm">Submission</button></a>
+                <?php if ($permission) {
+                        echo '<a style="color: white;" href="deleteAssignment.php?id=' . $row['id'] . '">';
+                ?>
+                        <button onclick="return  confirm('Do you want to delete this assignment?')" class="btn btn-danger btn-sm">Delete</button></a>
+                <?php
+                    }
+                ?>
+                <?php echo '</td>';        
                     }
                     $assignment->free();
                     DbConnection::closeConnection($conn);

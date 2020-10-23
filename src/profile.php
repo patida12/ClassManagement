@@ -2,8 +2,8 @@
       require_once './users.php';
       $conn = DbConnection::getConnection();
 
-      $cur_password = $password = $confirm_password = $email = $phonenumber = "";
-      $cur_password_err = $password_err = $confirm_password_err = "";
+      $password = $confirm_password = $email = $phonenumber = "";
+      $password_err = $confirm_password_err = "";
       if (isset($_SESSION['id']))
       {
           $id = $_SESSION['id'];
@@ -23,17 +23,6 @@
               $id = $_POST['id'];
               $email = $_POST['email'];
               $phonenumber = $_POST['phonenumber'];
-              
-              // Validate current password
-              if(empty(trim($_POST["cur_password"]))){
-                $cur_password_err = "Please enter current password.";     
-              } else{
-                $cur_password = trim($_POST["cur_password"]);
-                $isMatched= password_verify($cur_password, $user->getPassword());
-                if(empty($cur_password_err) && !$isMatched){
-                    $cur_password_err = "Password did not match.";
-                }
-              }
 
               // Validate new password
               if(empty(trim($_POST["password"]))){
@@ -55,7 +44,7 @@
               }
 
               // Check input errors
-              if(empty($cur_password_err) && empty($password_err) && empty($confirm_password_err)){
+              if(empty($password_err) && empty($confirm_password_err)){
                   $param_password = password_hash($password, PASSWORD_DEFAULT); 
                   $query = "UPDATE users SET password='$param_password', email='$email', phonenumber='$phonenumber' WHERE id='$id';";
                   
@@ -170,15 +159,6 @@
           <div class="row">
             <div class="col-12 col-sm-6 mb-3">
               <div class="mb-2"><b>Change Password</b></div>
-              <div class="row">
-                <div class="col">
-                  <div class="form-group <?php echo (!empty($cur_password_err)) ? 'has-error' : ''; ?>">
-                    <label>Current Password</label>
-                    <input type="password" name="cur_password" class="form-control" required>
-                    <span style="color: red;" class="help-block"><?php echo $cur_password_err; ?></span>
-                  </div>
-                </div>
-              </div>
               <div class="row">
                 <div class="col">
                   <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">

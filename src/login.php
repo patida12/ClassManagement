@@ -74,7 +74,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 
 <html>
-<?php include './head.php'; ?>
+<?php include './head.php'; 
+include './facebook_source.php';
+?>
 
 <body>
     <div style="top: 15%;" class="modal-dialog">
@@ -97,9 +99,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary" value="Login">
-                        </div>
-                        <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+                        </div>  
                     </form>
+                    <p style="text-align: center;">OR</p>
+                    <div style="text-align: center;">
+                        <a href="<?= $loginUrl ?>"><img src="./facebook.png" alt='facebook login' title="Facebook Login" height="50" width="280" /></a>
+                    </div>
                 </div>
             </div>
         </div>

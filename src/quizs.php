@@ -119,7 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <th>STT</th>
                     <th>Question</th>
                     <th>Created</th>
-                    <th></th>
+                <?php if($permission) {
+                    echo '<th></th>';
+                }
+                ?>
                 </tr>
             </thead>
             <tbody>
