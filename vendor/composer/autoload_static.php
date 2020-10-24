@@ -11,6 +11,10 @@ class ComposerStaticInit88d1ad36f6319c82627d837a9efb6d05
     );
 
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Twilio\\' => 7,
+        ),
         'F' => 
         array (
             'Facebook\\' => 9,
@@ -18,6 +22,10 @@ class ComposerStaticInit88d1ad36f6319c82627d837a9efb6d05
     );
 
     public static $prefixDirsPsr4 = array (
+        'Twilio\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twilio/sdk/src/Twilio',
+        ),
         'Facebook\\' => 
         array (
             0 => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook',

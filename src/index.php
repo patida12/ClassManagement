@@ -1,10 +1,4 @@
 <?php
-session_start();
- 
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
 
 function active($currect_page){
     $url_array =  explode('/', $_SERVER['REQUEST_URI']) ;
@@ -13,6 +7,14 @@ function active($currect_page){
         echo 'active'; 
     } 
   }
+
+session_start();
+ 
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+
 ?>
 
  
@@ -28,7 +30,7 @@ function active($currect_page){
     <section style="margin-top: 30px;">
         <ul id="ul_index" class="nav flex-column" >
             <li class="nav-item">
-                <a class="nav-link <?php active('index.php');?>" href="index.php"><i class="fa fa-home"> Home</i></a>
+                <a class="nav-link <?php active('home.php');?>" href="home.php"><i class="fa fa-home"> Home</i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?php active('assignment.php');?>"  href="assignment.php"><i class="fa fa-book"> Assignment</i></a>

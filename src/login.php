@@ -1,5 +1,10 @@
 <?php
 session_start();
+require_once "../vendor/twilio/sdk/src/Twilio/autoload.php";
+use Twilio\Rest\Client;
+
+$sid = "ACcf9a8ba39a168be14b909712767f5587";
+$token = "102ba45b9671645dd0da92b00ee88f98";
  
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: index.php");
@@ -30,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Validate 
     if(empty($username_err) && empty($password_err)){
-        $sql = "SELECT id, username, password, permission FROM users WHERE username = ?";
+        $sql = "SELECT id, username, password, permission, phonenumber, is_tfa_enabled FROM users WHERE username = ?";
         
         if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "s", $param_username);
@@ -43,17 +48,39 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){                    
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $permission);
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $permission, $phonenumber, $is_tfa_enabled);
                     if(mysqli_stmt_fetch($stmt)){
                         if(password_verify($password, $hashed_password)){
                             session_start();
+                            if ($is_tfa_enabled == 1) {
+                                $_SESSION["loggedin"] = false;
+                                $_SESSION["id"] = $id;
+                                $_SESSION["username"] = $username;
+                                $_SESSION["permission"] = $permission;  
+ 
+                                $pin = rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9);
+                                
+                                $sql = "UPDATE users SET pin = $pin  WHERE id = $id";
+                                mysqli_query($conn, $sql);
+            
+                                $client = new Client($sid, $token);
+                                $client->messages->create(
+                                    $phonenumber, array(
+                                        "from" => "+12513877015",
+                                        "body" => "Your classmanagement.com 2-factor authentication code is: ". $pin
+                                    )
+                                );
+            
+                                header("Location: enter-pin.php");
+                            } else {
+                                $_SESSION["loggedin"] = true;
+                                $_SESSION["id"] = $id;
+                                $_SESSION["username"] = $username;
+                                $_SESSION["permission"] = $permission;                            
+                                
+                                header("location: home.php");
+                            }
                             
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;
-                            $_SESSION["permission"] = $permission;                            
-                            
-                            header("location: index.php");
                         } else{
                             $password_err = "The password you entered was not valid.";
                         }
