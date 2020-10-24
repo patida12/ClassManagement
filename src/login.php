@@ -3,8 +3,9 @@ session_start();
 require_once "../vendor/twilio/sdk/src/Twilio/autoload.php";
 use Twilio\Rest\Client;
 
-$sid = "ACcf9a8ba39a168be14b909712767f5587";
-$token = "102ba45b9671645dd0da92b00ee88f98";
+// id and token in twillio 
+$sid = "...";
+$token = "...";
  
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: index.php");
